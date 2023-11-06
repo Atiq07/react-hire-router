@@ -1,19 +1,17 @@
-import { useState } from 'react'
-import './App.css'
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function App() {
-  const [hiredPeople, setHiredPeople] = useState([])
-
   return (
     <>
       <header>
         <h1>Hire Your Team</h1>
         <nav>
           <ul>
-            <li>Dashboard</li>
+            <li><Link to="/dashboard">Dashboard</Link></li>
           </ul>
         </nav>
       </header>
     </>
-  )
+  );
 }

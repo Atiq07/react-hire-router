@@ -5,7 +5,7 @@ export default function Dashboard() {
   const [people, setPeople] = useState([]);
 
   useEffect(() => {
-    fetch('https://randomuser.me/api/?results=50')
+    fetch('https://reactrouter.com/en/main/start/overview')
       .then((response) => response.json())
       .then((data) => {
         setPeople(data.results);

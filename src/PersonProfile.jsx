@@ -6,7 +6,7 @@ export default function PersonProfile() {
   const [person, setPerson] = useState({});
 
   useEffect(() => {
-    fetch(`https://randomuser.me/api/?results=50`)
+    fetch(`https://reactrouter.com/en/main/start/overview`)
       .then((response) => response.json())
       .then((data) => {
         setPerson(data.results[parseInt(id) - 1]);
