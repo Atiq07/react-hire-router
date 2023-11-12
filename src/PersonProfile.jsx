@@ -1,24 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import HireForm from './HireForm';
 
-export default function PersonProfile() {
-  const { id } = useParams();
-  const [person, setPerson] = useState({});
+function PersonProfile(props) {
+  // eslint-disable-next-line react/prop-types
+  const { hiredPeople, setHiredPeople } = props;
+  const [person, setPerson] = useState(null);
+  const location = useLocation();
 
   useEffect(() => {
-    fetch(`https://reactrouter.com/en/main/start/overview`)
-      .then((response) => response.json())
-      .then((data) => {
-        setPerson(data.results[parseInt(id) - 1]);
-      });
-  }, [id]);
+    if (location.state) {
+      const { person } = location.state;
+      setPerson(person);
+    }
+  }, [location]);
+
+  if (!person) return <p>Loading...</p>;
 
   return (
-    <div>
-      <h2>Profile of {person.name && person.name.first} {person.name && person.name.last}</h2>
-      <p>Email: {person.email}</p>
-      <p>Phone: {person.phone}</p>
-      {/* Display other details as needed */}
-    </div>
+    <article>
+      <h2>
+        {person.name.first} {person.name.last}
+      </h2>
+      <HireForm person={person} hiredPeople={hiredPeople} setHiredPeople={setHiredPeople} />
+      {/* ... rest of your component */}
+    </article>
   );
 }
+
+export default PersonProfile;

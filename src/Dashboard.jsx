@@ -1,38 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import PeopleList from './PeopleList';
 
-export default function Dashboard() {
+function Dashboard(props) {
+  const { hiredPeople } = props;
   const [people, setPeople] = useState([]);
 
   useEffect(() => {
-    fetch('https://reactrouter.com/en/main/start/overview')
-      .then((response) => response.json())
-      .then((data) => {
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch('https://randomuser.me/api/?results=50');
+        const data = await response.json();
         setPeople(data.results);
-      });
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    };
+
+    fetchUsers();
   }, []);
 
-  const hirePerson = (person) => {
-    setHiredPeople([...hiredPeople, person]);
-  };
-
   return (
-    <>
-      <h2>People to Hire</h2>
-      <ul>
-        {people.map((person, index) => (
-          <li key={index}>
-            <Link to={`/view/${index + 1}`}>View Profile</Link>
-            <button onClick={() => hirePerson(person)}>Hire</button>
-          </li>
-        ))}
-      </ul>
-      <h2>Hired</h2>
-      <ul>
-        {hiredPeople.map((person, index) => (
-          <li key={index}>{person.name.first} {person.name.last}</li>
-        ))}
-      </ul>
-    </>
+    <main className="dashboard-layout">
+      <section>
+        <PeopleList people={people} hiredPeople={hiredPeople} />
+      </section>
+    </main>
   );
 }
+
+export default Dashboard;
